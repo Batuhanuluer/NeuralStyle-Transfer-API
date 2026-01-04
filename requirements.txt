@@ -1,0 +1,8 @@
+torch
+torchvision
+fastapi
+uvicorn
+python-multipart
+wandb
+python-dotenv
+opencv-python
