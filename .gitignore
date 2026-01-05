@@ -4,3 +4,6 @@ __pycache__/
 .env
 data/
 models/*.pth
+data/raw/
+data/processed/
+*.zip

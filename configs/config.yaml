@@ -1,0 +1,13 @@
+# Data Configuration
+data:
+  content_dir: "data/raw/coco/val2017"
+  style_dir: "data/raw/wikiart"
+  image_size: 256
+  batch_size: 4
+  num_workers: 4
+
+# Model Hyperparameters
+training:
+  learning_rate: 0.001
+  epochs: 2
+  log_interval: 100 # Steps between logging to W&B
