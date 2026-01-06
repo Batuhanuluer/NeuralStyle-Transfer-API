@@ -17,3 +17,14 @@ def load_config(config_path):
     except Exception as e:
         logger.error(f"Error loading configuration: {e}")
         raise e
+    
+def gram_matrix(y):
+    """
+    Compute the Gram matrix of a batch of feature maps.
+    Used for style loss calculation.
+    """
+    (b, ch, h, w) = y.size()
+    features = y.view(b, ch, w * h)
+    features_t = features.transpose(1, 2)
+    gram = features.bmm(features_t) / (ch * h * w)
+    return gram

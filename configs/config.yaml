@@ -1,10 +1,22 @@
 # Data Configuration
 data:
   content_dir: "data/raw/coco/val2017"
-  style_dir: "data/raw/wikiart"
+  style_dir: "data/wikiart"
   image_size: 256
   batch_size: 4
   num_workers: 4
+
+# Loss Weights
+loss_weights:
+  content: 1e5    # alpha
+  style: 1e10     # beta
+  tv: 1e-6        # Total Variation (Gürültüyü azaltmak için)
+
+# Normalization stats for VGG16 (ImageNet standards)
+vgg_stats:
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+  
 
 # Model Hyperparameters
 training:
