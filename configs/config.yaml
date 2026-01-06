@@ -8,15 +8,15 @@ data:
 
 # Loss Weights
 loss_weights:
-  content: 1e5    # alpha
-  style: 1e10     # beta
-  tv: 1e-6        # Total Variation (Gürültüyü azaltmak için)
+  content: 100000.0  # 1e5 yerine açıkça yazalım, kafa karışıklığı bitsin
+  style: 10000000000.0 # 1e10 yerine açıkça yazalım
+  tv: 0.000001
 
 # Normalization stats for VGG16 (ImageNet standards)
 vgg_stats:
   mean: [0.485, 0.456, 0.406]
   std: [0.229, 0.224, 0.225]
-  
+
 
 # Model Hyperparameters
 training:

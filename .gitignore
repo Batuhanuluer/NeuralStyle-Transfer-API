@@ -1,9 +1,26 @@
-venv/
-__pycache__/
-*.pyc
-.env
+# Datasets (En kritiği!)
 data/
-models/*.pth
 data/raw/
-data/processed/
-*.zip
+data/wikiart/
+data/raw/coco/
+
+# Models & Weights
+models/
+*.pth
+
+# Monitoring & Logs
+wandb/
+logs/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# OS
+.DS_Store
+Thumbs.db

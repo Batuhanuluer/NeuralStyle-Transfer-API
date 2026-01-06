@@ -39,29 +39,19 @@ class Normalization(torch.nn.Module):
         # Move mean and std to the same device as the image
         return (img - self.mean.to(img.device)) / self.std.to(img.device)
 
+# Define this OUTSIDE the class
+VggOutputs = namedtuple("VggOutputs", ["relu1_2", "relu2_2", "relu3_3", "relu4_3"])
+
 class Vgg16(torch.nn.Module):
     def __init__(self, requires_grad=False):
         super(Vgg16, self).__init__()
-        # Load pre-trained VGG16 trained on ImageNet
         vgg_pretrained_features = models.vgg16(weights=models.VGG16_Weights.IMAGENET1K_V1).features
         
-        # We slice the model to get outputs from specific layers:
-        # relu1_2, relu2_2, relu3_3, relu4_3
-        self.slice1 = torch.nn.Sequential()
-        self.slice2 = torch.nn.Sequential()
-        self.slice3 = torch.nn.Sequential()
-        self.slice4 = torch.nn.Sequential()
+        self.slice1 = torch.nn.Sequential(*[vgg_pretrained_features[x] for x in range(4)])
+        self.slice2 = torch.nn.Sequential(*[vgg_pretrained_features[x] for x in range(4, 9)])
+        self.slice3 = torch.nn.Sequential(*[vgg_pretrained_features[x] for x in range(9, 16)])
+        self.slice4 = torch.nn.Sequential(*[vgg_pretrained_features[x] for x in range(16, 23)])
 
-        for x in range(4):
-            self.slice1.add_module(str(x), vgg_pretrained_features[x])
-        for x in range(4, 9):
-            self.slice2.add_module(str(x), vgg_pretrained_features[x])
-        for x in range(9, 16):
-            self.slice3.add_module(str(x), vgg_pretrained_features[x])
-        for x in range(16, 23):
-            self.slice4.add_module(str(x), vgg_pretrained_features[x])
-
-        # Freeze the model (we don't train VGG)
         if not requires_grad:
             for param in self.parameters():
                 param.requires_grad = False
@@ -76,10 +66,7 @@ class Vgg16(torch.nn.Module):
         h = self.slice4(h)
         h_relu4_3 = h
         
-        # Return a namedtuple for easy access to layers
-        vgg_outputs = namedtuple("VggOutputs", ["relu1_2", "relu2_2", "relu3_3", "relu4_3"])
-        out = vgg_outputs(h_relu1_2, h_relu2_2, h_relu3_3, h_relu4_3)
-        return out
+        return VggOutputs(h_relu1_2, h_relu2_2, h_relu3_3, h_relu4_3)
     
 
 class TransformerNet(nn.Module):
