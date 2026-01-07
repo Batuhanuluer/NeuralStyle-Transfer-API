@@ -6,20 +6,20 @@ data:
   batch_size: 4
   num_workers: 4
 
-# Loss Weights
 loss_weights:
-  content: 100000.0  # 1e5 yerine açıkça yazalım, kafa karışıklığı bitsin
-  style: 10000000000.0 # 1e10 yerine açıkça yazalım
-  tv: 0.000001
+  content: 5000000.0   # 5e6 (İçeriği korumak için 5 kat artırdık)
+  style: 1000000000.0  # 1e9 (Stili daha dengeli hale getirdik)
+  tv: 0.00001          # 1e-5 (Pürüzsüzleştirme için devreye aldık)
+
+
+# Model Hyperparameters
+training:
+  learning_rate: 0.001
+  epochs: 10           # 2'den 10'a çıkardık, model artık daha çok pratik yapacak
+  log_interval: 100
 
 # Normalization stats for VGG16 (ImageNet standards)
 vgg_stats:
   mean: [0.485, 0.456, 0.406]
   std: [0.229, 0.224, 0.225]
 
-
-# Model Hyperparameters
-training:
-  learning_rate: 0.001
-  epochs: 2
-  log_interval: 100 # Steps between logging to W&B
